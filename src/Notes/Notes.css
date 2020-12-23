@@ -1,0 +1,21 @@
+.notes {
+  height: calc(100%-40px);
+  width: calc(100%-40px);
+  padding: 20px;
+  background-color: white;
+  overflow: auto;
+  border-radius: 25px;
+  box-shadow: 5px 5px 15px #c4c4c4;
+  grid-template-rows: 33% 67%;
+  grid-column-start: 5;
+  grid-column-end: 8;
+  grid-row-start: 1;
+  grid-row-end: 3;
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.notes::-webkit-scrollbar {
+  display: none;
+}

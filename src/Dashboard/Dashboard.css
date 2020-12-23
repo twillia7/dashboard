@@ -1,0 +1,8 @@
+.Dashboard {
+  background-color: rgb(240, 240, 240);
+  min-height: 100%;
+  padding: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 300px 300px 300px 300px;
+}
