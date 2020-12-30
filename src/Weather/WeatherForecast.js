@@ -50,13 +50,8 @@ export default function WeatherForecast() {
   const [weatherForecast, setWeatherForecast] = useState(null)
 
   useEffect(() => {
-    console.log("WF: ", weatherForecast)
-  }, [weatherForecast])
-
-  useEffect(() => {
     if('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position.coords.latitude, position.coords.longitude);
         fetchWeatherForecat(setWeatherForecast, position.coords.latitude, position.coords.longitude)
       });
     } else {
@@ -72,7 +67,7 @@ export default function WeatherForecast() {
       {weatherForecast && (
         <div className="forecast-container">
           {weatherForecast.slice(1, 8).map((item, index) => {
-            return <WeatherForecastItem weatherForecastItem={item} dayOfWeek={dates[index]} />
+            return <WeatherForecastItem key={index} weatherForecastItem={item} dayOfWeek={dates[index]} />
           })}
         </div>
       )}

@@ -1,10 +1,11 @@
 .note-item {
   height: 70px;
   width: 100%;
+  cursor: pointer;
 }
 
 .note-title {
-  
+  font-weight: bold;
 }
 
 .note-description {

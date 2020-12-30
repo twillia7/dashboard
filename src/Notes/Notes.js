@@ -18,8 +18,8 @@ export default function Notes() {
 
   return (
     <div className={'notes'}>
-      {TEMP_NOTES.notes.map((note) => {
-        return <NoteItem title={note.title} description={note.description} text={note.text}/>
+      {TEMP_NOTES.notes.map((note, index) => {
+        return <NoteItem key={index} title={note.title} description={note.description} text={note.text}/>
       })}
       <hr></hr>
       END OF NOTES

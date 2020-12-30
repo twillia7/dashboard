@@ -1,0 +1,22 @@
+.header {
+  width: calc(100% - 30px);
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: black;
+  padding: 0 15px;
+  z-index: 5;
+}
+
+main {
+  margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+  .header {
+    justify-content: space-between;
+  }
+}
