@@ -1,10 +1,9 @@
 import React, { useState, useReducer, useCallback } from 'react'
 
-import Input from '../Input/Input'
 import { VALIDATOR_REQUIRE } from '../Input/validators';
+import Input from '../Input/Input'
 import Modal from '../Modal/Modal'
 import NoteItem from './NoteItem'
-
 import './Notes.css'
 
 const TEMP_NOTES = {
@@ -28,6 +27,7 @@ const formReducer = (state, action) => {
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
       }
+
       return {
         ...state,
         inputs: {
