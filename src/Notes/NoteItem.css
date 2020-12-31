@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.note-container {
+  padding: 5px;
+}
+
 .note-title {
   font-weight: bold;
 }

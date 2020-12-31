@@ -8,27 +8,27 @@ export default function NoteItem({
   description,
   text
 }) {
-  const [showMap, setShowMap] = useState(false)
+  const [showNote, setShowNote] = useState(false)
 
-  const openMapHandler = () => setShowMap(true)
-  const closeMapHandler = () => setShowMap(false)
+  const openNoteHandler = () => setShowNote(true)
+  const closeNoteHandler = () => setShowNote(false)
 
   return(
     <>
       <Modal
-        show={showMap}
-        onCancel={closeMapHandler}
-        header='Edit Note'
+        show={showNote}
+        onCancel={closeNoteHandler}
+        header='View Note'
         contentClass='place-item__modal-content'
         footerClass='place-item__modal-actions'
       >
-        <div className='map-container'>
+        <div className='note-container'>
           <h2>{title}</h2>
           <h4>{description}</h4>
           <p>{text}</p>
         </div>
       </Modal>
-      <div className={'note-item'} onClick={openMapHandler}>
+      <div className={'note-item'} onClick={openNoteHandler}>
         <div className='note-title'>{title}</div>
         <div>{description}</div>
       </div>
