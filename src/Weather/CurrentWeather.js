@@ -50,13 +50,8 @@ export default function CurrentWeather() {
   const [currentWeather, setCurrentWeather] = useState(null)
 
   useEffect(() => {
-    console.log("currentWeather: ", currentWeather)
-  }, [currentWeather])
-
-  useEffect(() => {
     if('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position.coords.latitude, position.coords.longitude);
         fetchCurrentWeather(setCurrentWeather, position.coords.latitude, position.coords.longitude)
       });
     } else {
