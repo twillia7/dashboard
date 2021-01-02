@@ -9,6 +9,7 @@ export default function Weather() {
     <div className="Weather">
       <CurrentWeather />
       <WeatherForecast />
+      <div style={{fontSize: '8px', textAlign: 'center', color: 'darkgray'}}>Powered by ClimaCell</div>
     </div>
   )
 }

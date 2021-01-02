@@ -6,6 +6,12 @@
   position: relative;
 }
 
+.current-weather-icon {
+  padding: 20px;
+  height: 100px;
+  width: 100px;
+}
+
 .day-background {
   background-color: #b7f6f8;
   color: black;

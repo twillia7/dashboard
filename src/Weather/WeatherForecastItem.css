@@ -10,6 +10,11 @@
   padding-left: 10px;
 }
 
+.forecast-item-icon {
+  height: 35px;
+  width: 35px;
+}
+
 .forecast-temps {
   display: flex;
   justify-content: space-between;

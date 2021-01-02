@@ -32,7 +32,14 @@ function fetchCurrentWeather(setCurrentWeather, lat, lon) {
  */
 function getTimeOfDay(sunrise, sunset) {
   const current = new Date()
-  return (current < sunset && current > sunrise) ? 'day-background' : 'night-background'
+  return (current < sunset && current > sunrise) ? 'day' : 'night'
+}
+
+function getImgSrc(weatherCode, timeOfDay) {
+  if (weatherCode.includes('clear') || weatherCode.includes('partly')) {
+    return `/weatherIcons/${weatherCode}_${timeOfDay}.svg`
+  }
+  return `/weatherIcons/${weatherCode}.svg`
 }
 
 
@@ -57,15 +64,25 @@ export default function CurrentWeather() {
     }
   }, [])
 
-  const timeOfDayCss = currentWeather ? getTimeOfDay(new Date(currentWeather?.sunrise?.value), new Date(currentWeather?.sunset?.value)) : ''
+  const timeOfDay = currentWeather ? getTimeOfDay(new Date(currentWeather?.sunrise?.value), new Date(currentWeather?.sunset?.value)) : ''
 
   const currentTemp = currentWeather?.temp?.value
+
+  const imgSrc = currentWeather ? getImgSrc(currentWeather.weather_code.value, timeOfDay) : ''
+
   return (
-    <div className={`current-weather ${timeOfDayCss}`}>
+    <div className={`current-weather ${timeOfDay}-background`}>
       {currentTemp && (
-        <div className="current-temp">
-          {Math.round(currentTemp)}&deg;
-        </div>
+        <>
+          <img
+            className='current-weather-icon'
+            src={imgSrc}
+            alt={currentWeather.weather_code.value}
+          />
+          <div className="current-temp">
+            {Math.round(currentTemp)}&deg;
+          </div>
+        </>
       )}
     </div>
   )
