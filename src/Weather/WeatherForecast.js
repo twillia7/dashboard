@@ -66,7 +66,7 @@ export default function WeatherForecast() {
     <>
       {weatherForecast && (
         <div className="forecast-container">
-          {weatherForecast.slice(1, 8).map((item, index) => {
+          {weatherForecast.slice(2, 9).map((item, index) => {
             return <WeatherForecastItem key={index} weatherForecastItem={item} dayOfWeek={dates[index]} />
           })}
         </div>
