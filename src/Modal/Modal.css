@@ -1,7 +1,8 @@
 .modal {
   z-index: 100;
   position: fixed;
-  top: 22vh;
+  top: 0;
+  height: 100%;
   left: 10%;
   width: 80%;
   background: white;
@@ -21,11 +22,16 @@
 }
 
 .modal__content {
-  padding: 1rem 0.5rem;
+  height: 100%;
+  padding: 15px;
 }
 
 .modal__footer {
   padding: 1rem 0.5rem;
+}
+
+.modal__form {
+  height: calc(100% - 115px);
 }
 
 @media (min-width: 768px) {

@@ -25,7 +25,9 @@ export default function NoteItem({
         <div className='note-container'>
           <h2>{title}</h2>
           <h4>{description}</h4>
-          <p>{text}</p>
+          <div className='note-content'>
+            <p>{text}</p>
+          </div>
         </div>
       </Modal>
       <div className={'note-item'} onClick={openNoteHandler}>

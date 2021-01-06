@@ -5,7 +5,13 @@
 }
 
 .note-container {
+  height: 100%;
+  overflow-y: scroll;
   padding: 5px;
+}
+
+.note-content {
+  height: 100%;
 }
 
 .note-title {

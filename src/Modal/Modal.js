@@ -21,7 +21,7 @@ function ModalOverlay({
       <header className={`modal__header ${headerClass}`}>
         <h2>{header}</h2>
       </header>
-      <form onSubmit={onSubmit ? onSubmit : event => event.preventDefault()}>
+      <form className='modal__form' onSubmit={onSubmit ? onSubmit : event => event.preventDefault()}>
         <div className={`modal__content ${contentClass}`}>
           {children}
         </div>
