@@ -11,7 +11,7 @@
 }
 
 .note-content {
-  height: 100%;
+  height: calc(100%-115px);
 }
 
 .note-title {
