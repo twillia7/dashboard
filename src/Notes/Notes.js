@@ -1,6 +1,7 @@
 import React, { useState, useReducer, useCallback } from 'react'
 
-import { VALIDATOR_REQUIRE } from '../Input/validators';
+import { useForm } from '../Input/form-hooks'
+import { VALIDATOR_REQUIRE } from '../Input/validators'
 import Input from '../Input/Input'
 import Modal from '../Modal/Modal'
 import NoteItem from './NoteItem'
@@ -16,35 +17,9 @@ const TEMP_NOTES = {
   ]
 }
 
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case 'INPUT_CHANGE':
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid }
-        },
-        isValid: formIsValid
-      };
-    default:
-      return state;
-  }
-}
-
 export default function Notes() {
-  const [showNewNote, setShowNewNote] = useState(false)
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
+  const [formState, inputHandler] = useForm(
+    {
       title: {
         value: '',
         isValid: false
@@ -52,20 +27,16 @@ export default function Notes() {
       description: {
         value: '',
         isValid: false
+      },
+      text: {
+        value: '',
+        isValid: false
       }
     },
-    isValid: false
-  })
+    false
+  )
 
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: 'INPUT_CHANGE',
-      value: value,
-      isValid: isValid,
-      inputId: id
-    });
-  }, [])
-
+  const [showNewNote, setShowNewNote] = useState(false)
 
   const openNewNoteHandler = () => setShowNewNote(true)
   const closeNewNoteHandler = () => setShowNewNote(false)
