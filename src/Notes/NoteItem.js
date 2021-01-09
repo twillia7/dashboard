@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import './NoteItem.css'
 import { VALIDATOR_REQUIRE } from '../Input/validators'
@@ -44,6 +44,11 @@ export default function NoteItem({
 
   const openNoteHandler = () => setShowNote(true)
   const closeNoteHandler = () => setShowNote(false)
+  const deleteNoteHandler = () => {
+    console.log("DELETING...")
+    closeNoteHandler()
+  }
+
   const noteUpdateSubmitHandler = event => {
     event.preventDefault()
     closeNoteHandler()
@@ -56,7 +61,12 @@ export default function NoteItem({
       <Modal
         show={showNote}
         onCancel={closeNoteHandler}
-        header={<button onClick={enterEditModal}>Edit</button>}
+        header={
+          <>
+            <button onClick={enterEditModal}>Edit</button>
+            <button onClick={deleteNoteHandler}>Delete</button>
+          </>
+        }
         contentClass='place-item__modal-content'
         footerClass='place-item__modal-actions'
       >
