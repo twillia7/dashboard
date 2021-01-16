@@ -4,11 +4,16 @@ import Input from '../Input/Input'
 import { useForm } from '../Input/form-hooks'
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../Input/validators'
 import { AuthContext } from '../Authentication/auth-context'
+import { useHttpClient } from '../Http/http-hook'
 import './Auth.css'
+import ErrorModal from '../Input/ErrorModal'
+import LoadingSpinner from '../Input/LoadingSpinner'
 
 export default function Auth() {
   const auth = useContext(AuthContext)
   const [isLoginMode, setIsLoginMode] = useState(true)
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+
   const [formState, inputHandler, setFormData] = useForm({
     email: {
       value: '',
@@ -20,11 +25,49 @@ export default function Auth() {
     }
   }, false)
 
-  const authSubmitHandler = event => {
+  const authSubmitHandler = async event => {
     event.preventDefault()
-    console.log(formState.inputs)
-    auth.login()
+
+    if (isLoginMode) {
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:5000/users/login',
+          'POST',
+          JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          }),
+          {
+            'Content-Type': 'application/json'
+          }
+        )
+
+        auth.login(responseData.user.id)
+      } catch(err) {
+        console.log(err)
+      }
+    } else {
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:5000/users/signup',
+          'POST',
+          JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          }),
+          {
+            'Content-Type': 'application/json'
+          }
+        )
+
+        auth.login(responseData.user.id)
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
+
   const switchModeHandler = () => {
     if (!isLoginMode) {
       setFormData(
@@ -50,6 +93,8 @@ export default function Auth() {
 
   return (
     <>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && <LoadingSpinner asOverlay/>}
       <h2>Login Required</h2>
       <hr />
       <form onSubmit={authSubmitHandler}>
