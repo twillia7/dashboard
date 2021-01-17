@@ -1,18 +1,20 @@
-import React from 'react'
-import LoadingSpinner from '../Input/LoadingSpinner'
+import React, { useContext } from 'react'
+
+import { useHttpClient } from '../Http/http-hook'
 import { VALIDATOR_REQUIRE } from '../Input/validators'
 import { useForm } from '../Input/form-hooks'
-import { useHttpClient } from '../Http/http-hook'
+import LoadingSpinner from '../Input/LoadingSpinner'
+import { AuthContext } from '../Authentication/auth-context'
 import Input from '../Input/Input'
 import Modal from '../Modal/Modal'
 import './Notes.css'
 
 export default function CreateNoteModal({
   showNewNote,
-  setShowNewNote,
-  userId
+  setShowNewNote
 }) {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const auth = useContext(AuthContext)
   const [formState, inputHandler] = useForm(
     {
       title: {
@@ -35,6 +37,9 @@ export default function CreateNoteModal({
   const noteSubmitHandler = async event => {
     event.preventDefault()
     try {
+      console.log(event)
+      console.log(auth.userId)
+
       await sendRequest(
         'http://localhost:5000/notes',
         'POST',
@@ -42,7 +47,7 @@ export default function CreateNoteModal({
           title: formState.inputs.title.value,
           description: formState.inputs.description.value,
           text: formState.inputs.text.value,
-          userId: userId
+          userId: auth.userId
         }),  
         { 'Content-Type': 'application/json' } 
       )

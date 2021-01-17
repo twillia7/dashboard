@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react'
-import ErrorModal from '../Input/ErrorModal'
 import NotesList from './NotesList'
 import CreateNoteModal from './CreateNoteModal'
+import ErrorModal from '../Input/ErrorModal'
 import { useHttpClient } from '../Http/http-hook'
 import { AuthContext } from '../Authentication/auth-context'
-import './Notes.css'
 import LoadingSpinner from '../Input/LoadingSpinner'
+import './Notes.css'
 
 export default function Notes() {
   const auth = useContext(AuthContext)
@@ -19,7 +19,7 @@ export default function Notes() {
         const responseData = await sendRequest(
           `http://localhost:5000/notes/user/${auth.userId}`
         )
-        setNotes(responseData)
+        setNotes(responseData.notes)
       } catch (err) {
         console.log(err)
       }
@@ -28,6 +28,9 @@ export default function Notes() {
   }, [])
 
   const openNewNoteHandler = () => setShowNewNote(true)
+  const onNoteDelete = (noteId) => {
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId))
+  }
 
   return (
     <>
@@ -37,9 +40,9 @@ export default function Notes() {
           <LoadingSpinner />
         </div>
       )}
-      <CreateNoteModal showNewNote={showNewNote} setShowNewNote={setShowNewNote} userId={auth.id} />
+      <CreateNoteModal showNewNote={showNewNote} setShowNewNote={setShowNewNote} />
       <div className={'notes'}>
-        {!isLoading && notes && <NotesList notes={notes} />}
+        {!isLoading && notes && <NotesList notes={notes} onNoteDelete={onNoteDelete} />}
         <hr></hr>
         <button onClick={openNewNoteHandler}>Add Note</button>
       </div>

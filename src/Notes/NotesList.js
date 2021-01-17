@@ -1,11 +1,21 @@
 import React from 'react'
+
 import NoteItem from './NoteItem'
 
-export default function NotesList({ notes }) {
+export default function NotesList({ notes, onNoteDelete }) {
   return (
     <>
-      {notes.notes.map((note, index) => {
-        return <NoteItem key={index} title={note.title} description={note.description} text={note.text}/>
+      {notes.map((note, index) => {
+        return (
+          <NoteItem
+            key={index}
+            title={note.title}
+            description={note.description}
+            text={note.text}
+            noteId={note.id}
+            onNoteDelete={onNoteDelete}
+          />
+        )
       })}
     </>
   )

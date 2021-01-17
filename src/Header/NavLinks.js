@@ -14,7 +14,7 @@ export default function NavLinks() {
       </li>
       {auth.isLoggedIn && (
         <li>
-          <NavLink to='/u1/dashboard' exact>Dashboard</NavLink>
+          <NavLink to={`/${auth.userId}/dashboard`} exact>Dashboard</NavLink>
         </li>
       )}
       {!auth.isLoggedIn && (

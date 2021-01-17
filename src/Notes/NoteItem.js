@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
 
-import './NoteItem.css'
+import { useHttpClient } from '../Http/http-hook'
 import { VALIDATOR_REQUIRE } from '../Input/validators'
 import { useForm } from '../Input/form-hooks'
 import Input from '../Input/Input'
 import Modal from '../Modal/Modal'
 
+import './NoteItem.css'
+
 export default function NoteItem({
   title,
   description,
-  text
+  text,
+  noteId,
+  onNoteDelete
 }) {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const [showNote, setShowNote] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [formState, inputHandler] = useForm(
@@ -44,15 +49,38 @@ export default function NoteItem({
 
   const openNoteHandler = () => setShowNote(true)
   const closeNoteHandler = () => setShowNote(false)
-  const deleteNoteHandler = () => {
-    console.log("DELETING...")
+  const deleteNoteHandler = async () => {
+    try {
+      await sendRequest(
+        `http://localhost:5000/notes/${noteId}`,
+        'DELETE',
+      )
+      onNoteDelete(noteId)
+    } catch (err) {
+      console.log(err)
+    }
     closeNoteHandler()
   }
 
-  const noteUpdateSubmitHandler = event => {
+  const noteUpdateSubmitHandler = async event => {
     event.preventDefault()
+    try {
+      await sendRequest(
+        `http://localhost:5000/notes/${noteId}`,
+        'PATCH',
+        JSON.stringify({
+          title: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          text: formState.inputs.text.value,
+        }),
+        {
+          'Content-Type': 'application/json'
+        }
+      )
+    } catch (err) {
+      console.log(err)
+    }
     closeNoteHandler()
-    console.log(formState.inputs)
   }
 
   return(
@@ -74,7 +102,7 @@ export default function NoteItem({
           <h2>{title}</h2>
           <h4>{description}</h4>
           <div className='note-content'>
-            <p>{text}</p>
+            <p style={{whiteSpace: 'pre-wrap'}}>{text}</p>
           </div>
         </div>
       </Modal>
@@ -96,8 +124,8 @@ export default function NoteItem({
             validators={[VALIDATOR_REQUIRE()]}
             errorText='Please enter a valid title.'
             onInput={inputHandler}
-            initialValue={formState.inputs.title.value}
-            initialValid={formState.inputs.title.isValid}
+            initialValue={title}
+            initialValid={true}
           />
           <Input
             id='description'
@@ -107,8 +135,8 @@ export default function NoteItem({
             validators={[VALIDATOR_REQUIRE()]}
             errorText='Please enter a valid title.'
             onInput={inputHandler}
-            initialValue={formState.inputs.description.value}
-            initialValid={formState.inputs.description.isValid}
+            initialValue={description}
+            initialValid={true}
           />
           <Input
             id='text'
@@ -117,8 +145,8 @@ export default function NoteItem({
             validators={[VALIDATOR_REQUIRE()]}
             errorText='Please enter a valid description.'
             onInput={inputHandler}
-            initialValue={formState.inputs.text.value}
-            initialValid={formState.inputs.text.isValid}
+            initialValue={text}
+            initialValid={true}
           />
           <button type="submit" disabled={!formState.isValid}>
             Update Note
